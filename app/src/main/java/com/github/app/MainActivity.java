@@ -128,4 +128,4 @@ public class MainActivity extends AppCompatActivity {
     @Override protected void onResume() { super.onResume(); webView.onResume(); }
     @Override protected void onPause() { super.onPause(); webView.onPause(); CookieManager.getInstance().flush(); }
     @Override protected void onDestroy() { CookieManager.getInstance().flush(); webView.destroy(); super.onDestroy(); }
-}
+    }
