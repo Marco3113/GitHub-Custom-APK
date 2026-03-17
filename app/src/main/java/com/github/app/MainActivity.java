@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         setupCookies();
         setupWebView();
         webView.loadUrl(URL);
-        
     }
 
     private void setupCookies() {
@@ -93,8 +92,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        });
     }
-    
+
     @Override
     protected void onActivityResult(int req, int res, Intent data) {
         super.onActivityResult(req, res, data);
@@ -105,11 +109,12 @@ public class MainActivity extends AppCompatActivity {
             fileCb = null;
         }
     }
-    
+
     private void requestMic() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, MIC_CODE);
     }
+
     @Override public void onRequestPermissionsResult(int code, @NonNull String[] p, @NonNull int[] r) {
         super.onRequestPermissionsResult(code, p, r);
         if (code == MIC_CODE && r.length > 0 && r[0] == PackageManager.PERMISSION_GRANTED)
